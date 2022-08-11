@@ -10,6 +10,43 @@ const initialBoard: Board = range(boardSize).map(() =>
   Array(boardSize).fill(false)
 )
 
+const absModulo = (n: number, m: number) => ((n % m) + m) % m
+
+const getCell = (board: Board) => (r: number, c: number) => {
+  return board[absModulo(r, boardSize)][absModulo(c, boardSize)]
+}
+
+const numNeighbors = (board: Board, r: number, c: number) => {
+  const cell = getCell(board)
+  const left = cell(r, c - 1)
+  const right = cell(r, c + 1)
+  const top = cell(r - 1, c)
+  const bottom = cell(r + 1, c)
+  const topLeft = cell(r - 1, c - 1)
+  const topRight = cell(r - 1, c + 1)
+  const bottomLeft = cell(r + 1, c - 1)
+  const bottomRight = cell(r + 1, c + 1)
+  return (
+    Number(left) +
+    Number(right) +
+    Number(top) +
+    Number(bottom) +
+    Number(topLeft) +
+    Number(topRight) +
+    Number(bottomLeft) +
+    Number(bottomRight)
+  )
+}
+
+const generateCell = (board: Board, r: number, c: number) => {
+  const neighbors = numNeighbors(board, r, c)
+  if (board[r][c]) {
+    return neighbors === 2 || neighbors === 3
+  } else {
+    return neighbors === 3
+  }
+}
+
 export default function App() {
   const [board, setBoard] = useState<Board>(initialBoard)
 
@@ -23,7 +60,7 @@ export default function App() {
 
   const generate = () => {
     setBoard(board =>
-      board.map((row, i) => row.map((cell, j) => Math.random() > 0.5))
+      board.map((row, r) => row.map((_, c) => generateCell(board, r, c)))
     )
   }
 
@@ -31,13 +68,13 @@ export default function App() {
     <div className="App">
       <table>
         <tbody>
-          {board.map((row, rIndex) => (
-            <tr key={rIndex}>
-              {row.map((cell, cIndex) => (
+          {board.map((row, r) => (
+            <tr key={r}>
+              {row.map((cell, c) => (
                 <td
-                  key={cIndex}
+                  key={c}
                   className={clsx("cell", { on: cell })}
-                  onMouseDown={() => toggle(rIndex, cIndex)}
+                  onMouseDown={() => toggle(r, c)}
                 ></td>
               ))}
             </tr>
