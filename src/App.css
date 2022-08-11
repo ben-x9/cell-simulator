@@ -1,0 +1,35 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.cell {
+  padding: 5px;
+  background-color: white;
+}
+
+.cell:hover {
+  background-color: lightgrey;
+}
+
+.cell.on {
+  background-color: black;
+}
+
+.cell.on:hover {
+  background-color: dimgrey;
+}
+
+.controls {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls > * + * {
+  margin-left: 20px;
+}
