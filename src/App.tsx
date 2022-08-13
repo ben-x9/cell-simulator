@@ -13,9 +13,9 @@ export default function App() {
     <div className="App">
       <BoardView board={board} setBoard={setBoard} />
       <div className="controls">
-        <span className="button" onClick={() => setBoard(initialBoard)}>
+        <button className="secondary" onClick={() => setBoard(initialBoard)}>
           Reset
-        </span>
+        </button>
         <button onClick={generate}>Next Generation</button>
       </div>
     </div>

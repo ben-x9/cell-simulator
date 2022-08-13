@@ -15,16 +15,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-span.button {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-  cursor: pointer;
-}
-span.button:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
@@ -49,9 +39,25 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  --color: #646cff;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--color);
+}
+
+button.secondary {
+  border: none;
+  font-weight: 500;
+  color: var(--color);
+  text-decoration: inherit;
+  cursor: pointer;
+  padding: 0;
+  background-color: transparent;
+}
+button.secondary:hover {
+  color: var(--color);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @media (prefers-color-scheme: light) {
