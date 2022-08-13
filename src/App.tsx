@@ -3,20 +3,27 @@ import "./App.css"
 import { range } from "lodash"
 import clsx from "clsx"
 
-const boardSize = 32
+export type Board = boolean[][]
 
-type Board = boolean[][]
+const boardSize = 32
 const initialBoard: Board = range(boardSize).map(() =>
   Array(boardSize).fill(false)
 )
 
-const absModulo = (n: number, m: number) => ((n % m) + m) % m
+export const absModulo = (n: number, m: number) => ((n % m) + m) % m
 
-const getCell = (board: Board) => (r: number, c: number) => {
-  return board[absModulo(r, boardSize)][absModulo(c, boardSize)]
+export const wrappedCoords = (board: Board, r: number, c: number) => {
+  const numRows = board.length
+  const numCols = board[0].length
+  return [absModulo(r, numRows), absModulo(c, numCols)]
 }
 
-const numNeighbors = (board: Board, r: number, c: number) => {
+export const getCell = (board: Board) => (r: number, c: number) => {
+  const [wrappedR, wrappedC] = wrappedCoords(board, r, c)
+  return board[wrappedR][wrappedC]
+}
+
+export const numNeighbors = (board: Board, r: number, c: number) => {
   const cell = getCell(board)
   const left = cell(r, c - 1)
   const right = cell(r, c + 1)
@@ -38,31 +45,36 @@ const numNeighbors = (board: Board, r: number, c: number) => {
   )
 }
 
-const generateCell = (board: Board, r: number, c: number) => {
-  const neighbors = numNeighbors(board, r, c)
-  if (board[r][c]) {
-    return neighbors === 2 || neighbors === 3
+export const toggleCell = (
+  board: Board,
+  targetRow: number,
+  targetCell: number
+) => {
+  const [_targetRow, _targetCell] = wrappedCoords(board, targetRow, targetCell)
+  return board.map((row, curRow) =>
+    curRow === _targetRow
+      ? row.map((cell, curCell) => (curCell === _targetCell ? !cell : cell))
+      : row
+  )
+}
+
+export const generateCell = (board: Board, r: number, c: number) => {
+  const isCellActive = getCell(board)(r, c)
+  const _numNeighbors = numNeighbors(board, r, c)
+  if (isCellActive) {
+    return _numNeighbors === 2 || _numNeighbors === 3
   } else {
-    return neighbors === 3
+    return _numNeighbors === 3
   }
 }
 
+export const generateBoard = (board: Board): Board =>
+  board.map((row, r) => row.map((_, c) => generateCell(board, r, c)))
+
 export default function App() {
   const [board, setBoard] = useState<Board>(initialBoard)
-
-  const toggle = (rIndex: number, cIndex: number) => {
-    setBoard(board =>
-      board.map((row, r) =>
-        rIndex === r ? row.map((cell, c) => (cIndex === c ? !cell : cell)) : row
-      )
-    )
-  }
-
-  const generate = () => {
-    setBoard(board =>
-      board.map((row, r) => row.map((_, c) => generateCell(board, r, c)))
-    )
-  }
+  const toggle = (r: number, c: number) => setBoard(toggleCell(board, r, c))
+  const generate = () => setBoard(generateBoard)
 
   return (
     <div className="App">
