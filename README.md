@@ -1,5 +1,17 @@
 # Cell Simulator
 
+## View here
+
+https://ben-x9.github.io/cell-simulator/
+
+## Usage instructions
+
+Click cells to make them "alive". Click again to make them "dead".
+
+Press "Next Generation" to generate the next state of the board.
+
+Press "Reset" to clear the board.
+
 ## To install and run
 
 ```
@@ -12,11 +24,3 @@ npm run dev
 ```
 npm run test
 ```
-
-## Usage instructions
-
-Click cell to make them "alive". Click again to make the "dead".
-
-Press "Next Generation" to generate the next state of the board.
-
-Press "Reset" to clear the board.
