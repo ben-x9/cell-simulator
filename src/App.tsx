@@ -1,9 +1,10 @@
 import "./App.css"
-import { useState, SetStateAction, Dispatch } from "react"
+import { useState } from "react"
 import { Board, generateBoard, newBoard, toggleCell } from "./models/board"
 import clsx from "clsx"
 
-const initialBoard = newBoard(32)
+export const boardSize = 32
+export const initialBoard = newBoard(boardSize)
 
 export default function App() {
   const [board, setBoard] = useState<Board>(initialBoard)
@@ -27,7 +28,7 @@ export const BoardView = ({
   setBoard,
 }: {
   board: Board
-  setBoard: Dispatch<SetStateAction<Board>>
+  setBoard: (board: Board) => void
 }) => {
   const toggle = (r: number, c: number) => setBoard(toggleCell(board, r, c))
   return (
@@ -39,7 +40,7 @@ export const BoardView = ({
               <td
                 key={c}
                 className={clsx("cell", { on: cell })}
-                onMouseDown={() => toggle(r, c)}
+                onClick={() => toggle(r, c)}
               ></td>
             ))}
           </tr>
