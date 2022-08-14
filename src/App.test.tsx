@@ -39,11 +39,11 @@ describe("App", () => {
     await user.click(cells[3])
     rerender(<App />)
 
-    // Check the cells are now on
+    // Check the cells are now alive
     const cellsAfterClick = await screen.findAllByRole("cell")
-    expect(cellsAfterClick[1]).toHaveClass("on")
-    expect(cellsAfterClick[2]).toHaveClass("on")
-    expect(cellsAfterClick[3]).toHaveClass("on")
+    expect(cellsAfterClick[1]).toHaveClass("alive")
+    expect(cellsAfterClick[2]).toHaveClass("alive")
+    expect(cellsAfterClick[3]).toHaveClass("alive")
 
     // Click Reset button
     const button = await screen.findByRole("button", { name: "Reset" })
@@ -52,9 +52,9 @@ describe("App", () => {
 
     // Check the cells are now off
     const cellsAfterReset = await screen.findAllByRole("cell")
-    expect(cellsAfterReset[1]).not.toHaveClass("on")
-    expect(cellsAfterReset[2]).not.toHaveClass("on")
-    expect(cellsAfterReset[3]).not.toHaveClass("on")
+    expect(cellsAfterReset[1]).not.toHaveClass("alive")
+    expect(cellsAfterReset[2]).not.toHaveClass("alive")
+    expect(cellsAfterReset[3]).not.toHaveClass("alive")
   })
 
   const getCellAt = (cells: HTMLElement[]) => (r: number, c: number) => {
@@ -79,13 +79,13 @@ describe("App", () => {
     await user.click(cellAt(2, 2))
     rerender(<App />)
 
-    // Check the clicked cells are on
+    // Check the clicked cells are alive
     cellAt = getCellAt(await screen.findAllByRole("cell"))
-    expect(cellAt(0, 1)).toHaveClass("on")
-    expect(cellAt(1, 2)).toHaveClass("on")
-    expect(cellAt(2, 0)).toHaveClass("on")
-    expect(cellAt(2, 1)).toHaveClass("on")
-    expect(cellAt(2, 2)).toHaveClass("on")
+    expect(cellAt(0, 1)).toHaveClass("alive")
+    expect(cellAt(1, 2)).toHaveClass("alive")
+    expect(cellAt(2, 0)).toHaveClass("alive")
+    expect(cellAt(2, 1)).toHaveClass("alive")
+    expect(cellAt(2, 2)).toHaveClass("alive")
 
     // Click Next Generation button
     const button = await screen.findByRole("button", {
@@ -102,13 +102,13 @@ describe("App", () => {
     //   [_, _, _, _, _, _],
     //   [_, _, _, _, _, _],
     cellAt = getCellAt(await screen.findAllByRole("cell"))
-    expect(cellAt(0, 1)).not.toHaveClass("on")
-    expect(cellAt(1, 0)).toHaveClass("on")
-    expect(cellAt(1, 2)).toHaveClass("on")
-    expect(cellAt(2, 0)).not.toHaveClass("on")
-    expect(cellAt(2, 1)).toHaveClass("on")
-    expect(cellAt(2, 2)).toHaveClass("on")
-    expect(cellAt(3, 1)).toHaveClass("on")
+    expect(cellAt(0, 1)).not.toHaveClass("alive")
+    expect(cellAt(1, 0)).toHaveClass("alive")
+    expect(cellAt(1, 2)).toHaveClass("alive")
+    expect(cellAt(2, 0)).not.toHaveClass("alive")
+    expect(cellAt(2, 1)).toHaveClass("alive")
+    expect(cellAt(2, 2)).toHaveClass("alive")
+    expect(cellAt(3, 1)).toHaveClass("alive")
   })
 })
 
@@ -132,8 +132,8 @@ describe("BoardView", () => {
     const setBoard = jest.fn()
     render(<BoardView board={board} setBoard={setBoard} />)
     const cells = await screen.findAllByRole("cell")
-    expect(cells[0]).toHaveClass("on")
-    expect(cells[2]).toHaveClass("on")
+    expect(cells[0]).toHaveClass("alive")
+    expect(cells[2]).toHaveClass("alive")
   })
 
   test("Toggles empty cells on click", async () => {
@@ -152,7 +152,7 @@ describe("BoardView", () => {
     // Rerender the board
     rerender(<BoardView board={board} setBoard={setBoard} />)
     const cells2 = await screen.findAllByRole("cell")
-    expect(cells2[0]).toHaveClass("on")
+    expect(cells2[0]).toHaveClass("alive")
   })
 
   test("Toggles active cells on click", async () => {
@@ -173,7 +173,7 @@ describe("BoardView", () => {
     )
 
     const cells = await screen.findAllByRole("cell")
-    expect(cells[2]).toHaveClass("on")
+    expect(cells[2]).toHaveClass("alive")
 
     // Click a cell
     await user.click(cells[2])
@@ -182,6 +182,6 @@ describe("BoardView", () => {
     // Rerender the board
     rerender(<BoardView board={board} setBoard={setBoard} />)
     const cells2 = await screen.findAllByRole("cell")
-    expect(cells2[2]).not.toHaveClass("on")
+    expect(cells2[2]).not.toHaveClass("alive")
   })
 })

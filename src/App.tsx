@@ -39,7 +39,7 @@ export const BoardView = ({
             {row.map((cell, c) => (
               <td
                 key={c}
-                className={clsx("cell", { on: cell })}
+                className={clsx("cell", { alive: cell })}
                 onClick={() => toggle(r, c)}
               ></td>
             ))}

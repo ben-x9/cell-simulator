@@ -14,11 +14,11 @@
   background-color: lightgrey;
 }
 
-.cell.on {
+.cell.alive {
   background-color: black;
 }
 
-.cell.on:hover {
+.cell.alive:hover {
   background-color: dimgrey;
 }
 
