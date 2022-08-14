@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Board, generateBoard, newBoard, toggleCell } from "./models/board"
 import clsx from "clsx"
 
-export const boardSize = 32
+export const boardSize = 30
 export const initialBoard = newBoard(boardSize)
 
 export default function App() {
